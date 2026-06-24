@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherAppTheme {
                 SearchScreen(
-                    onWeatherClick = {city ->
+                    onWeatherClick = { city ->
                         println("Selected city: $city")
                     }
                 )

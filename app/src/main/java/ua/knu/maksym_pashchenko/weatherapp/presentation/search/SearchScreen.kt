@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchScreen(
-    onWeatherClick: (String) -> Unit
+    onWeatherClick: (String) -> Unit,
 ) {
     var city by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
