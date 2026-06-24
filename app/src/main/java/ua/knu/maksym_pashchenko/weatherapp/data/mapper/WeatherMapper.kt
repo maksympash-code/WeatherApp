@@ -10,7 +10,7 @@ fun WeatherDto.toDomain(): Weather {
         cityName = name,
         temperature = main.temp,
         description = weatherDescription?.description ?: "No description",
-        iconUrl = weatherDescription?.icon.let { iconCode ->
+        iconUrl = weatherDescription?.icon?.let { iconCode ->
             "https://openweathermap.org/img/wn/${iconCode}@2x.png"
         },
         humidity = main.humidity,
