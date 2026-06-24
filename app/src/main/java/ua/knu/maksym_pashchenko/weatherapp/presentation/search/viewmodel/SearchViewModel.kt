@@ -1,4 +1,4 @@
-package ua.knu.maksym_pashchenko.weatherapp.presentation.search
+package ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,11 +7,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
+import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchUiState
 import kotlin.coroutines.cancellation.CancellationException
 
 class SearchViewModel(
     private val repository: WeatherRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
@@ -26,7 +27,7 @@ class SearchViewModel(
             _uiState.value = SearchUiState.Loading
 
             try {
-                val weather = repository.getWeatherByCity(city)
+                val weather = repository.getWeatherByCity(city.trim())
                 _uiState.value = SearchUiState.Success(weather)
             } catch (e: CancellationException) {
                 throw e
