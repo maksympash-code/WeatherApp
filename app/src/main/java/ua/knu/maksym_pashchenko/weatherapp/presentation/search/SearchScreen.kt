@@ -69,7 +69,6 @@ fun SearchScreen(
                     onWeatherClick(city.trim())
                 }
             },
-            enabled = city.isNotBlank(),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Search")
