@@ -4,9 +4,9 @@ import ua.knu.maksym_pashchenko.weatherapp.domain.model.Weather
 
 sealed interface SearchUiState {
 
-    data object Idle: SearchUiState
+    data object Idle : SearchUiState
 
-    data object Loading: SearchUiState
+    data object Loading : SearchUiState
 
     data class Success(
         val weather: Weather

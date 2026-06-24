@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -22,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.component.WeatherResult
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModel
 
@@ -31,7 +31,7 @@ fun SearchScreen(
 ) {
     var city by rememberSaveable { mutableStateOf("") }
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -63,7 +63,8 @@ fun SearchScreen(
             onClick = {
                 viewModel.searchWeather(city)
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = uiState !is SearchUiState.Loading
         ) {
             Text(text = "Search")
         }

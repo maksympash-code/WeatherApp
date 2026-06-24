@@ -23,7 +23,7 @@ fun WeatherResult(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "${weather.temperature}",
+            text = "${weather.temperature}°C",
             style = MaterialTheme.typography.headlineSmall
         )
 
