@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchScreen
 import ua.knu.maksym_pashchenko.weatherapp.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,25 +24,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WeatherAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    WeatherApp()
-                }
+                SearchScreen(
+                    onWeatherClick = {city ->
+                        println("Selected city: $city")
+                    }
+                )
             }
         }
     }
 }
 
-@Composable
-fun WeatherApp() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "WeatherApp \uD83C\uDF26\uFE0F"
-        )
-    }
-}
