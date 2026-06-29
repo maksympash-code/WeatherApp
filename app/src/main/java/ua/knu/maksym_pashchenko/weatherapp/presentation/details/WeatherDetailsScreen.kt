@@ -71,7 +71,7 @@ fun WeatherDetailsScreen(
 
                 WeatherInfoRow(
                     label = "Humidity",
-                    value = "${weather.humidity}"
+                    value = "${weather.humidity}%"
                 )
 
                 WeatherInfoRow(
@@ -84,15 +84,15 @@ fun WeatherDetailsScreen(
                     value = weather.updatedAt
                 )
             }
+        }
 
-            Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
-                onClick = onBackClick,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = "Back")
-            }
+        Button(
+            onClick = onBackClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Back")
         }
     }
 }
