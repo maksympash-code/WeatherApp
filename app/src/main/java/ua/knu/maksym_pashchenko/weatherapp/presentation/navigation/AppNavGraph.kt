@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
-import ua.knu.maksym_pashchenko.weatherapp.presentation.details.DetailsScreen
+import ua.knu.maksym_pashchenko.weatherapp.presentation.details.WeatherDetailsScreen
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchScreen
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModel
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModelFactory
@@ -35,7 +35,7 @@ fun AppNavGraph(
                 viewModel = searchViewModel,
                 onDetailsClick = { city ->
                     val encodedCity = Uri.encode(city)
-                    navController.navigate("details/$encodedCity")
+                    navController.navigate(Routes.details(encodedCity))
                 }
             )
         }
@@ -50,7 +50,7 @@ fun AppNavGraph(
         ) {backStackEntry ->
             val city = backStackEntry.arguments?.getString("city").orEmpty()
 
-            DetailsScreen(
+            WeatherDetailsScreen(
                 city = city,
                 onBackClick = {
                     navController.popBackStack()
