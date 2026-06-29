@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ua.knu.maksym_pashchenko.weatherapp.data.remote.RetrofitInstance
 import ua.knu.maksym_pashchenko.weatherapp.data.repository.WeatherRepositoryImpl
+import ua.knu.maksym_pashchenko.weatherapp.presentation.navigation.AppNavGraph
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchScreen
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModel
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModelFactory
@@ -26,11 +27,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WeatherAppTheme {
-                val viewModel: SearchViewModel = viewModel(
-                    factory = SearchViewModelFactory(weatherRepository)
-                )
-                SearchScreen(
-                    viewModel = viewModel
+                AppNavGraph(
+                    weatherRepository = weatherRepository
                 )
             }
         }

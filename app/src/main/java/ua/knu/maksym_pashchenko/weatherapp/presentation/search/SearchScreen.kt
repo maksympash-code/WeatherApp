@@ -27,7 +27,8 @@ import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchV
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel
+    viewModel: SearchViewModel,
+    onDetailsClick: (String) -> Unit
 ) {
     var city by rememberSaveable { mutableStateOf("") }
 
@@ -61,10 +62,15 @@ fun SearchScreen(
 
         Button(
             onClick = {
+                val trimmedCity = city.trim()
+
                 viewModel.searchWeather(city)
+
+                if (trimmedCity.isNotBlank()) {
+                    onDetailsClick(trimmedCity)
+                }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = uiState !is SearchUiState.Loading
         ) {
             Text(text = "Search")
         }
