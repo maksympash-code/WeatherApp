@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.WeatherDetailsScreen
+import ua.knu.maksym_pashchenko.weatherapp.presentation.details.viewmodel.WeatherDetailsViewModel
+import ua.knu.maksym_pashchenko.weatherapp.presentation.details.viewmodel.WeatherDetailsViewModelFactory
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchScreen
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModel
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModelFactory
@@ -48,10 +50,16 @@ fun AppNavGraph(
                 }
             )
         ) {backStackEntry ->
-            val city = backStackEntry.arguments?.getString("city").orEmpty()
+            val encodedCity = backStackEntry.arguments?.getString("city").orEmpty()
+            val city = Uri.decode(encodedCity)
+
+            val detailsViewModel: WeatherDetailsViewModel = viewModel(
+                factory = WeatherDetailsViewModelFactory(weatherRepository)
+            )
 
             WeatherDetailsScreen(
-                city = city,
+                city = encodedCity,
+                viewModel = detailsViewModel,
                 onBackClick = {
                     navController.popBackStack()
                 }

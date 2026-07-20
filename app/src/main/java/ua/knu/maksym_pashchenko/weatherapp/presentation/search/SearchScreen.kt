@@ -64,7 +64,7 @@ fun SearchScreen(
             onClick = {
                 val trimmedCity = city.trim()
 
-                viewModel.searchWeather(city)
+                viewModel.searchWeather(trimmedCity)
 
                 if (trimmedCity.isNotBlank()) {
                     onDetailsClick(trimmedCity)

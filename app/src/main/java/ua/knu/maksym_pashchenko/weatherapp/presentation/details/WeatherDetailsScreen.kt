@@ -10,31 +10,31 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.knu.maksym_pashchenko.weatherapp.domain.model.Weather
+import ua.knu.maksym_pashchenko.weatherapp.presentation.details.viewmodel.WeatherDetailsViewModel
 
 @Composable
 fun WeatherDetailsScreen(
     city: String,
+    viewModel: WeatherDetailsViewModel,
     onBackClick: () -> Unit
 ) {
-    val weather = remember(city) {
-        Weather(
-            cityName = city,
-            temperature = 35.4,
-            description = "Clear sky",
-            iconUrl = null,
-            humidity = 67,
-            windSpeed = 4.3,
-            updatedAt = "29 Jun 2026 14:30"
-        )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(city) {
+        viewModel.loadWeather(city)
     }
 
     Column(
@@ -45,43 +45,33 @@ fun WeatherDetailsScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(
-            text = weather.cityName,
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold
-        )
+        when (val state = uiState) {
+            WeatherDetailsUiState.Loading -> {
+                CircularProgressIndicator()
 
-        Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier.padding()
-            ) {
-                WeatherInfoRow(
-                    label = "Temperature",
-                    value = "${weather.temperature}°C"
+                Text(text = "Loading weather details...")
+            }
+
+            is WeatherDetailsUiState.Success -> {
+                WeatherDetailsContent(
+                    weather = state.weather
+                )
+            }
+
+            is WeatherDetailsUiState.Error -> {
+                Text(
+                    text = "Error",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.error
                 )
 
-                WeatherInfoRow(
-                    label = "Description",
-                    value = weather.description
-                )
+                Spacer(modifier = Modifier.height(8.dp))
 
-                WeatherInfoRow(
-                    label = "Humidity",
-                    value = "${weather.humidity}%"
-                )
-
-                WeatherInfoRow(
-                    label = "Wind speed",
-                    value = "${weather.windSpeed} m/s"
-                )
-
-                WeatherInfoRow(
-                    label = "Updated at",
-                    value = weather.updatedAt
+                Text(
+                    text = state.message,
+                    color = MaterialTheme.colorScheme.error
                 )
             }
         }
@@ -93,6 +83,53 @@ fun WeatherDetailsScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Back")
+        }
+    }
+}
+
+
+@Composable
+private fun WeatherDetailsContent(
+    weather: Weather
+) {
+    Text(
+        text = weather.cityName,
+        style = MaterialTheme.typography.headlineLarge,
+        fontWeight = FontWeight.Bold
+    )
+
+    Spacer(modifier = Modifier.height(24.dp))
+
+    Card(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding()
+        ) {
+            WeatherInfoRow(
+                label = "Temperature",
+                value = "${weather.temperature}°C"
+            )
+
+            WeatherInfoRow(
+                label = "Description",
+                value = weather.description
+            )
+
+            WeatherInfoRow(
+                label = "Humidity",
+                value = "${weather.humidity}%"
+            )
+
+            WeatherInfoRow(
+                label = "Wind speed",
+                value = "${weather.windSpeed} m/s"
+            )
+
+            WeatherInfoRow(
+                label = "Updated at",
+                value = weather.updatedAt
+            )
         }
     }
 }
