@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -73,6 +72,16 @@ fun WeatherDetailsScreen(
                     text = state.message,
                     color = MaterialTheme.colorScheme.error
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        viewModel.loadWeather(city)
+                    }
+                ) {
+                    Text(text = "Retry")
+                }
             }
         }
 
@@ -104,7 +113,7 @@ private fun WeatherDetailsContent(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.padding()
+            modifier = Modifier.padding(16.dp)
         ) {
             WeatherInfoRow(
                 label = "Temperature",

@@ -58,7 +58,7 @@ fun AppNavGraph(
             )
 
             WeatherDetailsScreen(
-                city = encodedCity,
+                city = city,
                 viewModel = detailsViewModel,
                 onBackClick = {
                     navController.popBackStack()
