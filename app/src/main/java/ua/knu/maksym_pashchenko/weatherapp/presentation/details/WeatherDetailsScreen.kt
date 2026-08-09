@@ -31,9 +31,11 @@ fun WeatherDetailsScreen(
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
 
     LaunchedEffect(city) {
         viewModel.loadWeather(city)
+        viewModel.observeFavorite(city)
     }
 
     Column(
@@ -55,7 +57,11 @@ fun WeatherDetailsScreen(
 
             is WeatherDetailsUiState.Success -> {
                 WeatherDetailsContent(
-                    weather = state.weather
+                    weather = state.weather,
+                    isFavorite = isFavorite,
+                    onFavoriteClick = {
+                        viewModel.toggleFavorite(state.weather.cityName)
+                    }
                 )
             }
 
@@ -99,7 +105,9 @@ fun WeatherDetailsScreen(
 
 @Composable
 private fun WeatherDetailsContent(
-    weather: Weather
+    weather: Weather,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit
 ) {
     Text(
         text = weather.cityName,
@@ -140,6 +148,18 @@ private fun WeatherDetailsContent(
                 value = weather.updatedAt
             )
         }
+    }
+
+    Button(
+        onClick = onFavoriteClick
+    ) {
+        Text(
+            text = if (isFavorite) {
+                "Remove from favorites"
+            } else {
+                "Add to favorites"
+            }
+        )
     }
 }
 

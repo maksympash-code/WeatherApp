@@ -8,12 +8,12 @@ import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityReposit
 
 class FavoriteCityRepositoryImpl(
     private val dao: FavoriteCityDao
-): FavoriteCityRepository {
+) : FavoriteCityRepository {
     override fun getFavoriteCities(): Flow<List<String>> {
         return dao.getFavoriteCities()
             .map { cities ->
-            cities.map { it.cityName }
-        }
+                cities.map { it.cityName }
+            }
     }
 
     override fun isFavorite(cityName: String): Flow<Boolean> {

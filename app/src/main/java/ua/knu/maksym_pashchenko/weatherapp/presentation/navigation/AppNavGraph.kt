@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.WeatherDetailsScreen
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.viewmodel.WeatherDetailsViewModel
@@ -18,7 +19,8 @@ import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchV
 
 @Composable
 fun AppNavGraph(
-    weatherRepository: WeatherRepository
+    weatherRepository: WeatherRepository,
+    favoriteCityRepository: FavoriteCityRepository
 ) {
     val navController = rememberNavController()
 
@@ -49,12 +51,12 @@ fun AppNavGraph(
                     type = NavType.StringType
                 }
             )
-        ) {backStackEntry ->
+        ) { backStackEntry ->
             val encodedCity = backStackEntry.arguments?.getString("city").orEmpty()
             val city = Uri.decode(encodedCity)
 
             val detailsViewModel: WeatherDetailsViewModel = viewModel(
-                factory = WeatherDetailsViewModelFactory(weatherRepository)
+                factory = WeatherDetailsViewModelFactory(weatherRepository, favoriteCityRepository)
             )
 
             WeatherDetailsScreen(
