@@ -60,7 +60,7 @@ fun WeatherDetailsScreen(
                     weather = state.weather,
                     isFavorite = isFavorite,
                     onFavoriteClick = {
-                        viewModel.toggleFavorite(state.weather.cityName)
+                        viewModel.toggleFavorite(city)
                     }
                 )
             }
