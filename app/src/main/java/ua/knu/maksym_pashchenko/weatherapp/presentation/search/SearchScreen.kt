@@ -33,6 +33,7 @@ fun SearchScreen(
     var city by rememberSaveable { mutableStateOf("") }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val favoriteCities by viewModel.favoriteCities.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -76,6 +77,22 @@ fun SearchScreen(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+
+        if (favoriteCities.isNotEmpty()) {
+            Text(
+                text = "Favorite cities",
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            favoriteCities.forEach { cityName ->
+                Button(
+                    onClick = { onDetailsClick(cityName) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = cityName)
+                }
+            }
+        }
 
         when (val state = uiState) {
             SearchUiState.Idle -> {

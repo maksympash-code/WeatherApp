@@ -12,7 +12,7 @@ import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.WeatherDetailsUiState
 
 class WeatherDetailsViewModel(
-    private val repository: WeatherRepository,
+    private val weatherRepository: WeatherRepository,
     private val favoriteCityRepository: FavoriteCityRepository
 ) : ViewModel() {
     private val _uiState =
@@ -36,7 +36,7 @@ class WeatherDetailsViewModel(
             _uiState.value = WeatherDetailsUiState.Loading
 
             try {
-                val weather = repository.getWeatherByCity(trimmedCity)
+                val weather = weatherRepository.getWeatherByCity(trimmedCity)
                 _uiState.value = WeatherDetailsUiState.Success(weather)
             } catch (e: CancellationException) {
                 throw e

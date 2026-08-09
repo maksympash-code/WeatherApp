@@ -32,7 +32,10 @@ fun AppNavGraph(
             route = Routes.SEARCH
         ) {
             val searchViewModel: SearchViewModel = viewModel(
-                factory = SearchViewModelFactory(weatherRepository)
+                factory = SearchViewModelFactory(
+                    weatherRepository,
+                    favoriteCityRepository
+                )
             )
             
             SearchScreen(
