@@ -8,9 +8,9 @@ import ua.knu.maksym_pashchenko.weatherapp.data.local.entity.FavoriteCityEntity
 @Database(
     entities = [
         FavoriteCityEntity::class
-               ],
+    ],
     version = 1
 )
 abstract class WeatherDatabase : RoomDatabase() {
-    abstract fun favoriteCityDao() : FavoriteCityDao
+    abstract fun favoriteCityDao(): FavoriteCityDao
 }
