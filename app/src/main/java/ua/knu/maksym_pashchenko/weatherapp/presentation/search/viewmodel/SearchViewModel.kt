@@ -36,7 +36,7 @@ class SearchViewModel(
 
             try {
                 val trimmedCity = city.trim()
-                val weather = weatherRepository.getWeatherByCity(trimmedCity.trim())
+                val weather = weatherRepository.getWeatherByCity(trimmedCity)
 
                 recentCityRepository.addRecentCity(trimmedCity)
 

@@ -10,8 +10,8 @@ class RecentCityRepositoryImpl(
     private val dao: RecentCityDao
 ): RecentCityRepository {
     override fun getAllRecentCities(): Flow<List<String>> {
-        return dao.getAllRecentCities().
-                map { cities ->
+        return dao.getAllRecentCities()
+            .map { cities ->
                     cities.map { it.cityName }
                 }
     }
