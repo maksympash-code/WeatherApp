@@ -9,6 +9,7 @@ import androidx.room.Room
 import ua.knu.maksym_pashchenko.weatherapp.data.local.database.WeatherDatabase
 import ua.knu.maksym_pashchenko.weatherapp.data.remote.RetrofitInstance
 import ua.knu.maksym_pashchenko.weatherapp.data.repository.FavoriteCityRepositoryImpl
+import ua.knu.maksym_pashchenko.weatherapp.data.repository.RecentCityRepositoryImpl
 import ua.knu.maksym_pashchenko.weatherapp.data.repository.WeatherRepositoryImpl
 import ua.knu.maksym_pashchenko.weatherapp.presentation.navigation.AppNavGraph
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchScreen
@@ -39,6 +40,12 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    private val recentCityRepository by lazy {
+        RecentCityRepositoryImpl(
+            dao = database.recentCitiesDao()
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -46,7 +53,8 @@ class MainActivity : ComponentActivity() {
             WeatherAppTheme {
                 AppNavGraph(
                     weatherRepository = weatherRepository,
-                    favoriteCityRepository = favoriteCityRepository
+                    favoriteCityRepository = favoriteCityRepository,
+                    recentCityRepository = recentCityRepository
                 )
             }
         }

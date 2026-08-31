@@ -7,13 +7,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityRepository
+import ua.knu.maksym_pashchenko.weatherapp.domain.repository.RecentCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchUiState
 import kotlin.coroutines.cancellation.CancellationException
 
 class SearchViewModel(
     private val weatherRepository: WeatherRepository,
-    private val favoriteCityRepository: FavoriteCityRepository
+    private val favoriteCityRepository: FavoriteCityRepository,
+    private val recentCityRepository: RecentCityRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
@@ -33,7 +35,11 @@ class SearchViewModel(
             _uiState.value = SearchUiState.Loading
 
             try {
-                val weather = weatherRepository.getWeatherByCity(city.trim())
+                val trimmedCity = city.trim()
+                val weather = weatherRepository.getWeatherByCity(trimmedCity.trim())
+
+                recentCityRepository.addRecentCity(trimmedCity)
+
                 _uiState.value = SearchUiState.Success(weather)
             } catch (e: CancellationException) {
                 throw e

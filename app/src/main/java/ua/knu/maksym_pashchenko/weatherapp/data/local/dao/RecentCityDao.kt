@@ -13,5 +13,5 @@ interface RecentCityDao {
     fun getAllRecentCities(): Flow<List<RecentCityEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addRecentCity(cityName: String)
+    suspend fun addRecentCity(city: RecentCityEntity)
 }

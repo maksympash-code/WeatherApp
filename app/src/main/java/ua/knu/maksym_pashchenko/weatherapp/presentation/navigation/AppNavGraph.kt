@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityRepository
+import ua.knu.maksym_pashchenko.weatherapp.domain.repository.RecentCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.WeatherDetailsScreen
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.viewmodel.WeatherDetailsViewModel
@@ -20,7 +21,8 @@ import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchV
 @Composable
 fun AppNavGraph(
     weatherRepository: WeatherRepository,
-    favoriteCityRepository: FavoriteCityRepository
+    favoriteCityRepository: FavoriteCityRepository,
+    recentCityRepository: RecentCityRepository
 ) {
     val navController = rememberNavController()
 
@@ -34,7 +36,8 @@ fun AppNavGraph(
             val searchViewModel: SearchViewModel = viewModel(
                 factory = SearchViewModelFactory(
                     weatherRepository,
-                    favoriteCityRepository
+                    favoriteCityRepository,
+                    recentCityRepository
                 )
             )
             
