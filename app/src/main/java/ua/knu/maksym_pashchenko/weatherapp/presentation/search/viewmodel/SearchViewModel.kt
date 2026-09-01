@@ -25,6 +25,9 @@ class SearchViewModel(
 
     val favoriteCities: StateFlow<List<String>> = _favoriteCities.asStateFlow()
 
+    private val _recentCities = MutableStateFlow<List<String>>(emptyList())
+    val recentCities: StateFlow<List<String>> = _recentCities.asStateFlow()
+
     fun searchWeather(city: String) {
         if (city.isBlank()) {
             _uiState.value = SearchUiState.Error("City name cannot be empty")
@@ -59,7 +62,18 @@ class SearchViewModel(
         }
     }
 
+    private fun observeRecentCities() {
+        viewModelScope.launch {
+            recentCityRepository
+                .getAllRecentCities()
+                .collect { cities ->
+                    _recentCities.value = cities
+                }
+        }
+    }
+
     init {
         observeFavoriteCities()
+        observeRecentCities()
     }
 }
