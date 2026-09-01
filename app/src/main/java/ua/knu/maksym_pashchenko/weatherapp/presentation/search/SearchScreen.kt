@@ -38,6 +38,8 @@ fun SearchScreen(
     val favoriteCities by viewModel.favoriteCities.collectAsStateWithLifecycle()
     val recentCities by viewModel.recentCities.collectAsStateWithLifecycle()
 
+    val isLoading = uiState is SearchUiState.Loading
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,6 +62,7 @@ fun SearchScreen(
                 Text(text = "Enter the city")
             },
             singleLine = true,
+            enabled = !isLoading,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -75,9 +78,16 @@ fun SearchScreen(
                     onDetailsClick(trimmedCity)
                 }
             },
+            enabled = !isLoading,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text(text = "Search")
+            Text(
+                text = if (isLoading) {
+                    "Loading..."
+                } else {
+                    "Search"
+                }
+            )
         }
 
         Spacer(modifier = Modifier.height(24.dp))

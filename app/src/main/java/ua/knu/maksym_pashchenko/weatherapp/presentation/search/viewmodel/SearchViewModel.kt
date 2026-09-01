@@ -28,7 +28,6 @@ class SearchViewModel(
 
     private val _recentCities = MutableStateFlow<List<String>>(emptyList())
     val recentCities: StateFlow<List<String>> = _recentCities.asStateFlow()
-
     fun searchWeather(city: String) {
         if (city.isBlank()) {
             _uiState.value = SearchUiState.Error("Enter city name")
