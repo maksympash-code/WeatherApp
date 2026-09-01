@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
+import ua.knu.maksym_pashchenko.weatherapp.presentation.common.toWeatherErrorMessage
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.WeatherDetailsUiState
 
 class WeatherDetailsViewModel(
@@ -41,7 +42,7 @@ class WeatherDetailsViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                _uiState.value = WeatherDetailsUiState.Error("Failed to load weather details")
+                _uiState.value = WeatherDetailsUiState.Error(e.toWeatherErrorMessage())
             }
         }
     }

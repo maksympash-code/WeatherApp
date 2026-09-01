@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.RecentCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
+import ua.knu.maksym_pashchenko.weatherapp.presentation.common.toWeatherErrorMessage
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.SearchUiState
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -30,7 +31,7 @@ class SearchViewModel(
 
     fun searchWeather(city: String) {
         if (city.isBlank()) {
-            _uiState.value = SearchUiState.Error("City name cannot be empty")
+            _uiState.value = SearchUiState.Error("Enter city name")
             return
         }
 
@@ -47,7 +48,7 @@ class SearchViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                _uiState.value = SearchUiState.Error("City not found")
+                _uiState.value = SearchUiState.Error(e.toWeatherErrorMessage())
             }
         }
     }
