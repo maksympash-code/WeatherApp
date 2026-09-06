@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
 import ua.knu.maksym_pashchenko.weatherapp.data.local.database.WeatherDatabase
 import ua.knu.maksym_pashchenko.weatherapp.data.remote.RetrofitInstance
+import ua.knu.maksym_pashchenko.weatherapp.data.remote.datasource.WeatherRemoteDataSource
 import ua.knu.maksym_pashchenko.weatherapp.data.repository.FavoriteCityRepositoryImpl
 import ua.knu.maksym_pashchenko.weatherapp.data.repository.RecentCityRepositoryImpl
 import ua.knu.maksym_pashchenko.weatherapp.data.repository.WeatherRepositoryImpl
@@ -19,10 +20,16 @@ import ua.knu.maksym_pashchenko.weatherapp.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
 
+    private val weatherRemoteDataSource by lazy {
+        WeatherRemoteDataSource(
+            api = RetrofitInstance.weatherApiService,
+            apiKey = BuildConfig.OPEN_WEATHER_API_KEY
+        )
+    }
+
     private val weatherRepository by lazy {
         WeatherRepositoryImpl(
-            apiService = RetrofitInstance.weatherApiService,
-            apiKey = BuildConfig.OPEN_WEATHER_API_KEY
+            remoteDataSource = weatherRemoteDataSource
         )
     }
 
