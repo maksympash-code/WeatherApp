@@ -176,6 +176,8 @@ private fun WeatherDetailsContent(
         }
     }
 
+    Spacer(modifier = Modifier.height(16.dp))
+
     Button(
         onClick = onFavoriteClick
     ) {
