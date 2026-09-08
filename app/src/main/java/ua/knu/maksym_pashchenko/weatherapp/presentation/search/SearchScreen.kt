@@ -50,7 +50,7 @@ fun SearchScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Weather")
+                    Text("Weather App")
                 }
             )
         }
@@ -63,12 +63,6 @@ fun SearchScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item {
-                Text(
-                    text = "Weather App",
-                    style = MaterialTheme.typography.headlineMedium
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
 
                 OutlinedTextField(
                     value = city,
@@ -120,7 +114,7 @@ fun SearchScreen(
                     Text(
                         text = "No favourite cities yet",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.surfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
@@ -150,7 +144,7 @@ fun SearchScreen(
                     Text(
                         text = "No recent cities yet",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.surfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             } else {
