@@ -15,11 +15,7 @@ val localProperties = Properties().apply {
 
 android {
     namespace = "ua.knu.maksym_pashchenko.weatherapp"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "ua.knu.maksym_pashchenko.weatherapp"
