@@ -7,7 +7,6 @@ import ua.knu.maksym_pashchenko.weatherapp.domain.repository.RecentCityRepositor
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 
 class SearchViewModelFactory(
-    private val weatherRepository: WeatherRepository,
     private val favoriteCityRepository: FavoriteCityRepository,
     private val recentCityRepository: RecentCityRepository,
 ) : ViewModelProvider.Factory {
@@ -16,7 +15,6 @@ class SearchViewModelFactory(
         if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return SearchViewModel(
-                weatherRepository,
                 favoriteCityRepository,
                 recentCityRepository
             ) as T

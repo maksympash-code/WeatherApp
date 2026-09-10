@@ -1,7 +1,6 @@
 package ua.knu.maksym_pashchenko.weatherapp.presentation.search
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -23,12 +21,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.component.CityCard
-import ua.knu.maksym_pashchenko.weatherapp.presentation.search.component.WeatherResult
 import ua.knu.maksym_pashchenko.weatherapp.presentation.search.viewmodel.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,12 +35,8 @@ fun SearchScreen(
 ) {
     var city by rememberSaveable { mutableStateOf("") }
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val favoriteCities by viewModel.favoriteCities.collectAsStateWithLifecycle()
     val recentCities by viewModel.recentCities.collectAsStateWithLifecycle()
-
-    val isLoading = uiState is SearchUiState.Loading
-
 
     Scaffold(
         topBar = {
@@ -71,7 +63,6 @@ fun SearchScreen(
                         Text(text = "Enter the city")
                     },
                     singleLine = true,
-                    enabled = !isLoading,
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -81,22 +72,14 @@ fun SearchScreen(
                     onClick = {
                         val trimmedCity = city.trim()
 
-                        viewModel.searchWeather(trimmedCity)
-
                         if (trimmedCity.isNotBlank()) {
                             onDetailsClick(trimmedCity)
                         }
                     },
-                    enabled = !isLoading,
+                    enabled = city.isNotBlank(),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(
-                        text = if (isLoading) {
-                            "Loading..."
-                        } else {
-                            "Search"
-                        }
-                    )
+                    Text("Search")
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -149,7 +132,7 @@ fun SearchScreen(
                 }
             } else {
 
-                items(recentCities) {recentCityName ->
+                items(recentCities) { recentCityName ->
                     CityCard(
                         cityName = recentCityName,
                         onClick = {
@@ -158,36 +141,6 @@ fun SearchScreen(
                     )
                 }
             }
-
-            item {
-                when (val state = uiState) {
-                    SearchUiState.Idle -> {
-                        Text("Enter city name to search weather")
-                    }
-
-                    SearchUiState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }
-
-                    is SearchUiState.Success -> {
-                        WeatherResult(weather = state.weather)
-                    }
-
-                    is SearchUiState.Error -> {
-                        Text(
-                            text = state.message,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
-                }
-            }
-
-
         }
     }
 }

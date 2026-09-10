@@ -35,7 +35,6 @@ fun AppNavGraph(
         ) {
             val searchViewModel: SearchViewModel = viewModel(
                 factory = SearchViewModelFactory(
-                    weatherRepository,
                     favoriteCityRepository,
                     recentCityRepository
                 )
@@ -62,7 +61,7 @@ fun AppNavGraph(
             val city = Uri.decode(encodedCity)
 
             val detailsViewModel: WeatherDetailsViewModel = viewModel(
-                factory = WeatherDetailsViewModelFactory(weatherRepository, favoriteCityRepository)
+                factory = WeatherDetailsViewModelFactory(weatherRepository, favoriteCityRepository, recentCityRepository)
             )
 
             WeatherDetailsScreen(

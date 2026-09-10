@@ -8,13 +8,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityRepository
+import ua.knu.maksym_pashchenko.weatherapp.domain.repository.RecentCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 import ua.knu.maksym_pashchenko.weatherapp.presentation.common.toWeatherErrorMessage
 import ua.knu.maksym_pashchenko.weatherapp.presentation.details.WeatherDetailsUiState
 
 class WeatherDetailsViewModel(
     private val weatherRepository: WeatherRepository,
-    private val favoriteCityRepository: FavoriteCityRepository
+    private val favoriteCityRepository: FavoriteCityRepository,
+    private val recentCityRepository: RecentCityRepository
 ) : ViewModel() {
     private val _uiState =
         MutableStateFlow<WeatherDetailsUiState>(WeatherDetailsUiState.Loading)
@@ -38,6 +40,9 @@ class WeatherDetailsViewModel(
 
             try {
                 val weather = weatherRepository.getWeatherByCity(trimmedCity)
+
+                recentCityRepository.addRecentCity(trimmedCity)
+
                 _uiState.value = WeatherDetailsUiState.Success(weather)
             } catch (e: CancellationException) {
                 throw e
