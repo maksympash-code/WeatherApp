@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.FavoriteCityRepository
 import ua.knu.maksym_pashchenko.weatherapp.domain.repository.RecentCityRepository
-import ua.knu.maksym_pashchenko.weatherapp.domain.repository.WeatherRepository
 
 class SearchViewModelFactory(
     private val favoriteCityRepository: FavoriteCityRepository,
