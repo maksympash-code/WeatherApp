@@ -6,7 +6,7 @@ The app fetches weather data from a remote API, displays detailed weather inform
 
 ## 📱 Screenshots
 
-<p align="center">
+<p>
   <img src="screenshots/search.jpg" width="250" alt="Search Screen"/>
   <img src="screenshots/details.jpg" width="250" alt="Weather Details Screen"/>
   <img src="screenshots/favorites.jpg" width="250" alt="Favorite Cities"/>
